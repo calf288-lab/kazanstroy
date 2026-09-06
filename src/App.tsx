@@ -12,6 +12,7 @@ import { Footer } from './components/Footer';
 import { ConsultationModal } from './components/ConsultationModal';
 import { MaxWidgetModal } from './components/MaxWidgetModal';
 import { FloatingConversionBar } from './components/FloatingConversionBar';
+import { MaxFloatingButton } from './components/MaxFloatingButton';
 
 export default function App() {
   const [isConsultationOpen, setIsConsultationOpen] = useState(false);
@@ -28,7 +29,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0D0F14] text-[#F3F4F6] selection:bg-[#FF6A00] selection:text-white font-sans antialiased pb-20 md:pb-16">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#0D0F14] text-[#F3F4F6] selection:bg-[#FF6A00] selection:text-white font-sans antialiased pb-20 md:pb-16">
       {/* Top Navigation */}
       <Header
         onOpenConsultation={handleOpenConsultation}
@@ -36,15 +37,17 @@ export default function App() {
       />
 
       {/* Main Content */}
-      <main>
+      <main className="w-full max-w-full overflow-x-hidden">
         {/* 1. Hero banner with quick lead calculation */}
         <Hero
           onOpenConsultation={handleOpenConsultation}
+          onOpenMax={handleOpenMax}
         />
 
         {/* 2. Interactive Calculator */}
         <Calculator
           onOpenConsultation={handleOpenConsultation}
+          onOpenMax={handleOpenMax}
         />
 
         {/* 3. Before & After Interactive Slider */}
@@ -86,6 +89,11 @@ export default function App() {
       <FloatingConversionBar
         onOpenMax={handleOpenMax}
         onOpenConsultation={handleOpenConsultation}
+      />
+
+      {/* Floating Eye-catching MAX Button Widget */}
+      <MaxFloatingButton
+        onOpenMax={handleOpenMax}
       />
 
       {/* Modals */}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Zap, Phone, MessageCircle, Clock, ShieldCheck, MapPin } from 'lucide-react';
 import { KAZAN_BASE_ADDRESS } from '../data/districtsData';
+import { trackGoal } from '../utils/metrika';
 
 interface MaxWidgetModalProps {
   isOpen: boolean;
@@ -46,6 +47,7 @@ export const MaxWidgetModal: React.FC<MaxWidgetModalProps> = ({ isOpen, onClose 
             href={`https://wa.me/${KAZAN_BASE_ADDRESS.rawPhone}?text=${encodeURIComponent('Здравствуйте! Обращаюсь через кнопку MAX на сайте. Мне нужна срочная консультация / расчет ремонта.')}`}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackGoal('max_whatsapp_click')}
             className="flex items-center justify-between p-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold shadow-lg shadow-emerald-950/30 transition-all hover:-translate-y-0.5 group"
           >
             <div className="flex items-center gap-3">
@@ -65,6 +67,7 @@ export const MaxWidgetModal: React.FC<MaxWidgetModalProps> = ({ isOpen, onClose 
           {/* Direct Phone Call */}
           <a
             href={`tel:${KAZAN_BASE_ADDRESS.rawPhone}`}
+            onClick={() => trackGoal('max_call_click')}
             className="flex items-center justify-between p-4 rounded-xl bg-[#202530] hover:bg-[#29303D] border border-[#343D4E] hover:border-[#FF6A00] text-white font-extrabold transition-all hover:-translate-y-0.5 group"
           >
             <div className="flex items-center gap-3">

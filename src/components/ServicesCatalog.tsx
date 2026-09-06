@@ -32,8 +32,8 @@ export const ServicesCatalog: React.FC<ServicesCatalogProps> = ({ onOpenConsulta
   });
 
   return (
-    <section id="services" className="py-16 sm:py-24 bg-[#111317] border-b border-[#242A34] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="services" className="py-16 sm:py-24 bg-[#111317] border-b border-[#242A34] relative w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">

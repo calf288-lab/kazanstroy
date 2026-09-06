@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { CheckCircle2, ShieldCheck, Calculator, ArrowRight, MessageCircle, Phone, Star, MapPin, Sparkles } from 'lucide-react';
+import { CheckCircle2, ShieldCheck, Calculator, ArrowRight, MessageCircle, Phone, Star, MapPin, Sparkles, Zap } from 'lucide-react';
 import { KAZAN_BASE_ADDRESS } from '../data/districtsData';
+import { trackGoal } from '../utils/metrika';
 
 interface HeroProps {
   onOpenConsultation: (topic?: string) => void;
+  onOpenMax?: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
+export const Hero: React.FC<HeroProps> = ({ onOpenConsultation, onOpenMax }) => {
   const [quickPhone, setQuickPhone] = useState('');
   const [quickArea, setQuickArea] = useState('55');
   const [quickType, setQuickType] = useState('Капитальный ремонт');
@@ -16,6 +18,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
   const handleQuickSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreeFz || !quickPhone) return;
+
+    trackGoal('lead');
+    trackGoal('hero_form_submit');
 
     // Send to WhatsApp directly
     const text = `Здравствуйте! Заявка на экспресс-расчет с сайта КазаньСтрой Ремонт.
@@ -30,12 +35,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
   };
 
   return (
-    <section className="relative overflow-hidden pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-[#222731] bg-gradient-to-b from-[#14171E] via-[#111317] to-[#0E1014]">
+    <section className="relative overflow-hidden w-full max-w-full pt-8 pb-16 lg:pt-14 lg:pb-24 border-b border-[#222731] bg-gradient-to-b from-[#14171E] via-[#111317] to-[#0E1014]">
       {/* Subtle ambient lighting mesh */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[450px] bg-[#FF6A00]/10 blur-[130px] rounded-full pointer-events-none" />
-      <div className="absolute top-1/3 right-[-100px] w-[400px] h-[350px] bg-amber-500/5 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] max-w-full h-[400px] bg-[#FF6A00]/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 right-0 w-[300px] max-w-full h-[300px] bg-amber-500/5 blur-[90px] rounded-full pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         
         {/* Geo badge & trust tag */}
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-5">
@@ -90,29 +95,53 @@ export const Hero: React.FC<HeroProps> = ({ onOpenConsultation }) => {
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
+            <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 href="#calculator"
-                className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-xl text-base font-extrabold bg-gradient-to-r from-[#FF6A00] to-[#E65300] hover:from-[#FF7A1A] hover:to-[#FF6000] text-white shadow-xl shadow-[#FF6A00]/25 transition-all hover:-translate-y-0.5 active:translate-y-0 text-center"
+                onClick={() => trackGoal('calc_button_click')}
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 sm:px-6 sm:py-4 rounded-xl text-sm sm:text-base font-extrabold bg-gradient-to-r from-[#FF6A00] to-[#E65300] hover:from-[#FF7A1A] hover:to-[#FF6000] text-white shadow-xl shadow-[#FF6A00]/25 transition-all hover:-translate-y-0.5 active:translate-y-0 text-center"
               >
                 <Calculator className="w-5 h-5" />
                 <span>Рассчитать смету онлайн</span>
                 <ArrowRight className="w-4 h-4" />
               </a>
 
+              {/* Prominent MAX button */}
+              {onOpenMax && (
+                <button
+                  onClick={() => {
+                    trackGoal('max_click');
+                    trackGoal('hero_max_click');
+                    onOpenMax();
+                  }}
+                  id="hero-max-btn"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-3.5 sm:px-5 sm:py-4 rounded-xl text-sm sm:text-base font-black bg-gradient-to-r from-amber-500 to-[#FF6A00] hover:brightness-110 text-white shadow-xl shadow-amber-500/20 transition-all hover:-translate-y-0.5 active:translate-y-0 text-center group"
+                  title="MAX — мгновенная связь с бригадиром"
+                >
+                  <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center">
+                    <Zap className="w-3.5 h-3.5 fill-current text-white" />
+                  </div>
+                  <span>MAX (Связь 60 сек)</span>
+                </button>
+              )}
+
               <a
                 href={`https://wa.me/${KAZAN_BASE_ADDRESS.rawPhone}?text=${encodeURIComponent('Здравствуйте! Хочу узнать стоимость ремонта в Казани. Подскажите, когда возможен замер?')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-4 rounded-xl text-base font-bold bg-[#1F252E] hover:bg-[#282F3B] text-emerald-400 border border-emerald-500/30 hover:border-emerald-500/60 transition-all hover:-translate-y-0.5 text-center"
+                onClick={() => trackGoal('whatsapp_click')}
+                className="inline-flex items-center justify-center gap-2 px-4 py-3.5 sm:px-5 sm:py-4 rounded-xl text-sm sm:text-base font-bold bg-[#1F252E] hover:bg-[#282F3B] text-emerald-400 border border-emerald-500/30 hover:border-emerald-500/60 transition-all hover:-translate-y-0.5 text-center"
               >
                 <MessageCircle className="w-5 h-5 text-emerald-400" />
                 <span>Заявка в WhatsApp</span>
               </a>
 
               <button
-                onClick={() => onOpenConsultation('Вызов инженера-замерщика')}
-                className="inline-flex items-center justify-center gap-2 px-4 py-3 sm:py-4 rounded-xl text-sm font-semibold text-gray-300 hover:text-white hover:bg-[#1E232B] transition-colors"
+                onClick={() => {
+                  trackGoal('callback_click');
+                  onOpenConsultation('Вызов инженера-замерщика');
+                }}
+                className="inline-flex items-center justify-center gap-2 px-4 py-3 sm:py-3.5 rounded-xl text-sm font-semibold text-gray-300 hover:text-white hover:bg-[#1E232B] transition-colors"
               >
                 <Phone className="w-4 h-4 text-[#FF6A00]" />
                 <span>Заказать звонок</span>

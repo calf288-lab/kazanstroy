@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Phone, MessageCircle, CheckCircle2, ShieldCheck, Calendar, MapPin } from 'lucide-react';
 import { KAZAN_BASE_ADDRESS, KAZAN_DISTRICTS } from '../data/districtsData';
+import { trackGoal } from '../utils/metrika';
 
 interface ConsultationModalProps {
   isOpen: boolean;
@@ -20,6 +21,9 @@ export const ConsultationModal: React.FC<ConsultationModalProps> = ({ isOpen, to
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreeFz || !phone) return;
+
+    trackGoal('modal_lead_submit');
+    trackGoal('lead');
 
     const text = `Здравствуйте! Заявка на бесплатный замер с сайта КазаньСтрой Ремонт:
 • Услуга / Тема: ${topic || 'Вызов замерщика на объект'}

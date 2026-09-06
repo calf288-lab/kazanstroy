@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { ArrowLeftRight, CheckCircle, Sparkles, MessageCircle } from 'lucide-react';
 import { KAZAN_BASE_ADDRESS } from '../data/districtsData';
 
@@ -58,9 +58,23 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({ onOpenCons
   const [activeCaseIdx, setActiveCaseIdx] = useState(0);
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [containerWidth, setContainerWidth] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const activeCase = CASES[activeCaseIdx];
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const updateWidth = () => {
+      if (containerRef.current) {
+        setContainerWidth(containerRef.current.clientWidth);
+      }
+    };
+    updateWidth();
+    const observer = new ResizeObserver(updateWidth);
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const handleMove = useCallback(
     (clientX: number) => {
@@ -83,7 +97,7 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({ onOpenCons
   };
 
   return (
-    <section id="before-after" className="py-16 sm:py-24 bg-[#0E1015] border-b border-[#242A34] relative">
+    <section id="before-after" className="py-16 sm:py-24 bg-[#0E1015] border-b border-[#242A34] relative w-full max-w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -161,9 +175,9 @@ export const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({ onOpenCons
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = 'https://placehold.co/1200x800/22252c/ffffff?text=ДО+РЕМОНТА';
                   }}
-                  className="absolute inset-0 w-full h-full object-cover max-w-none"
+                  className="absolute inset-0 w-full h-full object-cover max-w-none pointer-events-none"
                   style={{
-                    width: containerRef.current ? `${containerRef.current.clientWidth}px` : '100%',
+                    width: containerWidth > 0 ? `${containerWidth}px` : (containerRef.current ? `${containerRef.current.clientWidth}px` : '100%'),
                     height: '100%'
                   }}
                   draggable={false}

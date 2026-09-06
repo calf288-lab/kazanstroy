@@ -9,8 +9,8 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onOpenConsultation, onOpenMax }) => {
   return (
-    <footer className="bg-[#090B0E] border-t border-[#222731] text-gray-400 text-xs sm:text-sm pt-14 pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="bg-[#090B0E] border-t border-[#222731] text-gray-400 text-xs sm:text-sm pt-14 pb-12 w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#1E232B]">
           

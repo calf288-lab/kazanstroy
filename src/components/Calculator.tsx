@@ -1,12 +1,14 @@
 import React, { useState, useId } from 'react';
-import { Calculator as CalcIcon, MessageCircle, Calendar, Sparkles, Check, Info, ShieldCheck } from 'lucide-react';
+import { Calculator as CalcIcon, MessageCircle, Calendar, Sparkles, Check, Info, ShieldCheck, Zap } from 'lucide-react';
 import { KAZAN_BASE_ADDRESS } from '../data/districtsData';
+import { trackGoal } from '../utils/metrika';
 
 interface CalculatorProps {
   onOpenConsultation: (topic?: string) => void;
+  onOpenMax?: () => void;
 }
 
-export const Calculator: React.FC<CalculatorProps> = ({ onOpenConsultation }) => {
+export const Calculator: React.FC<CalculatorProps> = ({ onOpenConsultation, onOpenMax }) => {
   const [area, setArea] = useState<number>(54);
   const [propertyType, setPropertyType] = useState<'новостройка' | 'вторичка' | 'дом' | 'ванная' | 'офис'>('новостройка');
   const [renovationRate, setRenovationRate] = useState<number>(3000); // 1500, 2500, 3000, 8000
@@ -68,8 +70,8 @@ ${phone ? `• Мой телефон: ${phone}` : ''}
   };
 
   return (
-    <section id="calculator" className="py-16 sm:py-24 bg-[#12151B] border-b border-[#242A34] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="calculator" className="py-16 sm:py-24 bg-[#12151B] border-b border-[#242A34] relative w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
@@ -366,7 +368,14 @@ ${phone ? `• Мой телефон: ${phone}` : ''}
                     : 'bg-gray-600 cursor-not-allowed opacity-50'
                 }`}
                 onClick={(e) => {
-                  if (!agreeFz) e.preventDefault();
+                  if (!agreeFz) {
+                    e.preventDefault();
+                    return;
+                  }
+                  trackGoal('quiz_finish');
+                  trackGoal('quiz_lead');
+                  trackGoal('calc_whatsapp_submit');
+                  trackGoal('lead');
                 }}
               >
                 <MessageCircle className="w-5 h-5" />
@@ -376,12 +385,32 @@ ${phone ? `• Мой телефон: ${phone}` : ''}
               {/* Secondary button: Call measurement */}
               <button
                 type="button"
-                onClick={() => onOpenConsultation(`Расчет на ${area} м² (${renovationName})`)}
+                onClick={() => {
+                  trackGoal('quiz_measurement_click');
+                  trackGoal('lead');
+                  onOpenConsultation(`Расчет на ${area} м² (${renovationName})`);
+                }}
                 className="w-full mt-2.5 py-3 rounded-xl font-bold text-xs sm:text-sm text-gray-300 hover:text-white bg-[#222732] hover:bg-[#2A313E] border border-[#343B48] flex items-center justify-center gap-2 transition-colors"
               >
                 <Calendar className="w-4 h-4 text-[#FF6A00]" />
                 <span>Вызвать замерщика на объект (0 ₽)</span>
               </button>
+
+              {/* Instant MAX button */}
+              {onOpenMax && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    trackGoal('max_click');
+                    trackGoal('calc_max_click');
+                    onOpenMax();
+                  }}
+                  className="w-full mt-2.5 py-3 rounded-xl font-black text-xs sm:text-sm text-white bg-gradient-to-r from-amber-500 to-[#FF6A00] hover:brightness-110 flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition-all hover:-translate-y-0.5"
+                >
+                  <Zap className="w-4 h-4 fill-current" />
+                  <span>Кнопка MAX: Срочный расчет бригадира (60 сек)</span>
+                </button>
+              )}
 
               <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-gray-400 text-center">
                 <Info className="w-3.5 h-3.5 text-[#FF6A00]" />

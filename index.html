@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru" class="scroll-smooth">
+<html lang="ru" class="scroll-smooth overflow-x-hidden">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
@@ -9,14 +9,34 @@
     <meta property="og:description" content="Ремонт квартир, домов, сантехника, электрика и отделка под ключ в Казани. Фиксированная смета, гарантия 3 года, опытная бригада." />
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#121418" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Rubik:wght@500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+      (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+      m[i].l=1*new Date();
+      for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+      ym(112292579, "init", {
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true
+      });
+    </script>
+    <!-- /Yandex.Metrika counter -->
     <meta name="twitter:card" content="summary_large_image" />
   </head>
-  <body class="bg-[#101216] text-[#F3F4F6] antialiased selection:bg-[#FF6A00] selection:text-white">
-    <div id="root"></div>
+  <body class="bg-[#101216] text-[#F3F4F6] antialiased selection:bg-[#FF6A00] selection:text-white overflow-x-hidden w-full max-w-full">
+    <noscript><div><img src="https://mc.yandex.ru/watch/112292579" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <div id="root" class="w-full max-w-full overflow-x-hidden"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

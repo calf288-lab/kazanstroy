@@ -16,8 +16,8 @@ export const Portfolio: React.FC<PortfolioProps> = ({ onOpenConsultation }) => {
   });
 
   return (
-    <section id="portfolio" className="py-16 sm:py-24 bg-[#0F1116] border-b border-[#242A34] relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="portfolio" className="py-16 sm:py-24 bg-[#0F1116] border-b border-[#242A34] relative w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">

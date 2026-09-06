@@ -9,8 +9,8 @@ interface FloatingConversionBarProps {
 
 export const FloatingConversionBar: React.FC<FloatingConversionBarProps> = ({ onOpenMax, onOpenConsultation }) => {
   return (
-    <aside aria-label="Быстрые действия" className="fixed bottom-0 left-0 right-0 z-40 bg-[#101318]/95 backdrop-blur-lg border-t border-[#262C38] px-3 py-2.5 sm:py-3 shadow-2xl transition-all">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4">
+    <aside aria-label="Быстрые действия" className="fixed bottom-0 left-0 right-0 z-40 bg-[#101318]/95 backdrop-blur-lg border-t border-[#262C38] px-3 py-2.5 sm:py-3 shadow-2xl transition-all w-full max-w-full overflow-hidden">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-4 w-full">
         
         {/* Left: Phone & status */}
         <div className="hidden md:flex items-center gap-3">
